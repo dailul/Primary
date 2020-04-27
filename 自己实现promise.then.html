@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+ <script>
+    
+    
+    class MyPromise{
+    constructor(executor) {
+        this.status = "pending";     // 初始化状态为pending
+        this.value = undefined;      // 初始化返回的成功的结果或者失败的原因
+        this.resolveArr = [];        // 初始化then中成功的方法
+        this.rejectArr = [];         // 初始化then中失败的方法
+        
+        
+        // 定义change方法，因为我们发现好像resolve和reject方法共同的地方还挺多🤔
+        let change = (status, value) => {
+            if(this.status !== "pending") return; // 状态一旦改变，就不会再变
+            this.status = status;
+            this.value = value;
+            console.log(222222)
+            
+            // 根据状态判断要执行成功的方法或失败的方法
+            let fnArr = status === "resolved" ? this.resolveArr : this.rejectArr;
+            
+            // fnArr中的方法依次执行
+            fnArr.forEach(item => {
+                if(typeof item !== "function") return;
+                item(this. value);
+            })
+        }
+        // 这里是resolve方法，成功后执行，将状态改变为resolved，并且将结果返回
+        let resolve = result => {
+            change("resolved", result)
+        }
+        
+        // 这里是reject方法，异常时执行，状态改为rejected，并且将失败的原因返回
+        let reject = reason => {
+            change("rejected", reason);
+        }
+        
+        // try、catch捕获异常，如果错误，执行reject方法
+        try {
+            executor(resolve, reject)
+        } catch(err) {
+            reject(err)
+        }
+    }
+    
+    then(resolveFn, rejectFn) {
+    // 如果传入的两个参数不是函数，则直接执行返回结果
+        console.log(resolveFn, rejectFn)
+        if(typeof resolveFn !== "function") {
+            resolveFn = result => {
+                return result;
+            }
+        }
+        
+        if(typeof rejectFn !== "function") {
+            rejectFn = reason => {
+                return MyPromise.reject(reason);
+            }
+        }
+        
+        return new MyPromise((resolve, reject) => {
+            this.resolveArr.push(result => {
+                try {
+                    let x = resolveFn(result);  // 获取执行成功方法返回的结果
+                    
+                    // 如果x是一个promise实例，则继续调用then方法 ==> then链的实现
+                    if(x instanceof MyPromise) {
+                        x.then(resolve, reject)
+                        return;
+                    }
+                    
+                    // 不是promise实例，直接执行成功的方法
+                    resolve(x);
+                } catch(err) {
+                    reject(err)
+                }
+            })
+            
+            this.rejectArr.push(reason => {
+                try {
+                    let x = rejectFn(reason);
+                    
+                    if(x instanceof MyPromise) {
+                        x.then(resolve, reject)
+                        return;
+                    }
+                    
+                    resolve(x);
+                } catch(err) {
+                    reject(err)
+                }
+            })
+        })
+    }
+}
+
+    
+    
+    
+    
+    
+new MyPromise((resolve, reject) => {
+    resolve(1);
+    debugger
+}).then(res => {
+    console.log(res, 'success');
+}, err => {
+    console.log(err, 'error');
+})
+   
+</script>   
+</body>
+</html>
