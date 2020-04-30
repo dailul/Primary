@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+ <script>
+    function Parent(name) {
+        console.log(222)
+    this.name = [name]
+}
+function Child() {
+    // 构造函数继承
+    Parent.call(this, 'zhangsan') 
+}
+//原型链继承
+// Child.prototype = new Parent()
+Child.prototype = Object.create(Parent.prototype)  //将`指向父类实例`改为`指向父类原型`
+Child.prototype.constructor = Child
+Child.prototype.getName = function() {
+    return this.name
+}
+//测试
+const child1 = new Child()
+const child2 = new Child()
+child1.name[0] = 'foo'
+console.log(child1.name, Child.prototype, Parent.prototype)          // ['foo']
+console.log(child2.name)          // ['zhangsan']
+child2.getName()                  // ['zhangsan']
+
+</script>   
+</body>
+</html>
