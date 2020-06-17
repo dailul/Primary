@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+// var scope = "global scope";
+// function checkscope(){
+//     var scope = "local scope";
+//     function f(){
+//       debugger
+//         return scope;
+//     }
+//     return f;
+// }
+// checkscope()();
+debugger
+var x = 1;
+function bar (b) {
+    debugger
+    var a = 1;
+    console.log(arguments)
+    function foo () {
+        console.log(a)
+    }
+    foo()
+}
+bar(1)
+  </script>
+</body>
+</html>

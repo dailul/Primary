@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  .content{
+    width:40%;
+    background: #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  </style>
+</head>
+<body>
+  <div class='content' ref="content">长的的内容长长的内容</div>
+  <button class="btn" style="display: none;">显示</button>
+  <script>
+    const el = document.getElementsByClassName('content')[0]
+    console.log('width', el.clientWidth, el.scrollWidth)
+    this.showBtn = el.clientWidth < el.scrollWidth
+    window.addEventListener('resize', () => {
+      if (el.clientWidth < el.scrollWidth) {
+        document.getElementsByClassName('btn')[0].style.display = 'none'
+      } else {
+        document.getElementsByClassName('btn')[0].style.display = 'block'
+      }
+      // this.showTest = el.clientWidth < el.scrollWidth
+    })
+  </script>
+</body>
+</html>
