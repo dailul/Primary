@@ -1,0 +1,23 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "测试练习",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dailul/Primary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dailul/Primary/issues"
+  },
+  "homepage": "https://github.com/dailul/Primary#readme",
+  "dependencies": {
+    "@ant-design/pro-layout": "^6.2.0",
+    "@ant-design/pro-table": "^2.4.1"
+  }
+}

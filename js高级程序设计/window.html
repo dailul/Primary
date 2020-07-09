@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button class="btn">跳转</button>
+  <button class="close">关闭</button>
+</body>
+<script>
+  const btn = document.querySelector('.btn')
+  const close = document.querySelector('.close')
+  console.log('btn', btn)
+  let windBox = null
+  btn.onclick = function () {
+    console.log(location)
+    // console.log(111)
+    // windBox = window.open('https://jd.com', 'topname', 'height=400,width=400,top=10,right=10,resizable=yes,menubar=yes')
+    
+  }
+  close.onclick  = function () {
+    console.log('2222', windBox.opener === window)
+    windBox.close()
+  }
+ 
+</script>
+</html>

@@ -1,0 +1,14 @@
+function Person(name, age, job){
+  var o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function(){
+    console.log(this.name); 
+  };
+  // return o; 
+}
+  var friend = new Person("Nicholas", 29, "Software Engineer");
+  console.log('friendFun', Person("Nicholas", 29, "Software Engineer"))
+  console.log('friendObj', friend)
+  friend.sayName(); //"Nicholas"

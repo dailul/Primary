@@ -8,13 +8,11 @@
 </head>
 <body>
 <script>
-    function Fn() {
-        constructor: {
-            this.value = 1
-        }
-    }
-    let obj = new Fn()
-console.log('result', Fn.prototype.constructor, obj.__proto__)
+    var age = 12
+    window.name = 'zhangsaan'
+    console.log('age', Object.getOwnPropertyDescriptor(window, 'age'))
+    console.log('name', Object.getOwnPropertyDescriptor(window, 'name'))
+
 </script>  
 </body>
 </html>

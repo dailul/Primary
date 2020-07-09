@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="div" style="width: 10px; height: 10px; color: black;" onclick="getName()">
+    <div class="firstText">111</div>
+    <div>112221</div>
+    <div>113331</div>
+  </div>
+  <script>
+    function getName() {
+      console.log(2222)
+    }
+    // window.onload = function () {
+      // const div = document.getElementById('div')
+      // const firstText = document.querySelector('.firstText')
+      // console.log('attr style', div.getAttribute('style'))
+      // console.log('attr click', div.getAttribute('onclick'))
+      // console.log('属性 style', div.style)
+      // console.log('属性 onclick', div.onclick)
+      // // div.mysql = 'red'
+      // div.setAttribute('mysql', 'mysql')
+      // console.log('mysql', div.getAttribute('mysql'))
+      // // console.log('attributes', div.attributes.item(1))
+      // // console.log('attributes', div.attributes.getNamedItem('style').nodeName)
+      // // console.log('attributes', div.removeAttribute('mysql'))
+      // // console.log('specified', div.attributes['onclick'].specified)
+      // console.log(div.childElementCount)
+      // div.classList.toggle
+      // for (let i = 0; i < div.childNodes.length; i++) {
+      //   console.log('childNode--', i, '----', div.childNodes[i].nodeType, div.childNodes[i])
+      // }
+      // console.log('firstText', firstText.firstChild.nodeType, firstText.firstChild.nodeName, firstText.firstChild.nodeValue)
+      var divs = document.querySelector('#div'), i, div;
+      // for (i=0; i < divs.length; i++){
+      //   div = document.createElement("div");
+      //   div.appendChild(document.createTextNode('status' + i))
+      //   document.body.appendChild(div);
+      // }
+      // divs[0].focus()
+      console.log('di1111v', document.documentElement.compareDocumentPosition(document.body), 20 & 16)
+      console.log(document.activeElement)
+    // }
+  </script>
+</body>
+</html>
