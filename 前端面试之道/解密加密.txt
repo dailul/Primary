@@ -1,0 +1,72 @@
+const key = CryptoJS.enc.Utf8.parse("ONECONNECTGAOMAO"); //16位
+const iv = CryptoJS.enc.Utf8.parse("1234567812345678");
+const FormItem = Form.Item;
+const { TabPane } = Tabs;
+domain/page‐forward?encrypt_str=d16e0b86739c985aecae93d1b8df24c5e24e030daae3915e8f60a47893016646e79cbb0920a2907a9abce8e7197cb5fbccf4f98c7c720df21eed91109ee4b4418ff1cb8a5a0d199571d46e683dcd48f159bdc3803bbd0ea9726eab99968d4de52ee57e342ab1a907a425b9cec8084460e873fee1ea69d74f9214852b80a6ae0e
+
+
+ componentDidMount() {
+    let userPwd = this.encrypt("✓ à la mode"); // b915bf40c4795227488da86978f55fce
+    // "✓ à la mode"
+    console.log("mode", userPwd);
+    console.log("mode", this.decrypt(userPwd));
+
+    userPwd = this.encrypt("✓ à la mode"); // 6317313288b32bf1909f165ec530d60a
+    this.decrypt(userPwd); // "I ♡ Unicode!"
+    console.log("Unicode", userPwd);
+    console.log("userPwd", this.decrypt(userPwd));
+    userPwd = this.encrypt("我爱中国"); // 1898a34273855f55255437aa22f87504
+    this.decrypt(userPwd); // "我爱中国"
+    console.log("我爱中国", userPwd);
+    console.log("userPwd", this.decrypt(userPwd));
+    userPwd = this.encrypt("123456"); // dd7a6c4edc68e683b700a7a2846a2bc6
+    this.decrypt(userPwd); // "123456"
+    console.log("123456", userPwd);
+    console.log("userPwd", this.decrypt(userPwd));
+
+    var data = {
+      "page_type": "app",
+      "user_id": "dummy user id",
+      "user_perm": "admin",
+      "team_id": "dummy team id",
+      "app_id": "dummy app id"
+    }
+    var encrypt_data = this.encrypt(data)
+    console.log("encrypt data", encrypt_data)
+  }
+  encrypt = word => {
+    let encrypted = "";
+    if (typeof word == "string") {
+      const srcs = CryptoJS.enc.Utf8.parse(word);
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+    } else if (typeof word == "object") {
+      //对象格式的转成json字符串
+      const data = JSON.stringify(word);
+      const srcs = CryptoJS.enc.Utf8.parse(data);
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+    }
+    return encrypted.ciphertext.toString();
+  };
+  // aes解密
+  decrypt = word => {
+    const encryptedHexStr = CryptoJS.enc.Hex.parse(word);
+    const srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
+    const decrypt = CryptoJS.AES.decrypt(srcs, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
+    const decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+    return decryptedStr.toString();
+  };
+
+
+crypto-js

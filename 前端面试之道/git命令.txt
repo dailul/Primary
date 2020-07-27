@@ -1,0 +1,252 @@
+/Users/yangml/app-store/_output/darwin-amd64
+docker start redis
+初始化：git init
+
+新建文件：mkdir 
+
+查看目录：pwd
+
+提交到暂存区：git add 文件名   //可以提交多个问价，中间只用空格隔一下就好
+
+提交到git仓库：git commit -m "说明"
+
+查看状态：git status
+
+查看修改的文件: git diff
+
+查看文件内容：cat 文件名
+
+查看不同的版本：git log
+
+查看不同的版本(精简版)：git log --pretty=oneline
+
+版本回退：git reset --hard HEAD^(一个^表示回退一个版本，多个表示回退多个)
+
+指定版本回退：git reset --hard "commit id"
+
+记录每一条命令：git reflog
+
+删除最后一行：git checkout -- 文件名
+
+提交到暂存区撤回：git reset HEAD 文件名
+
+删除文件：git rm 文件名 ==> git commit -m "说明"
+
+创建分支并切换到该分支：git checkout -b 分支名
+
+合并分支：git merge 分支名
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+编写代码：vi 文件名
+
+查看合并过程： git log --graph --pretty=oneline --abbrev-commit
+
+修改bug分支：git stash //保存当前编译的进度
+
+查看工作现场：git stash list
+
+恢复工作现场：git stash pop  或者 git stash apply 并且 git stash drop
+
+查看远程库信息，使用git remote -v；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+git fetch 拉取远程的所有分支更新到本地
+同步fork
+git remote -v 
+git remote add upstream git@github.com:xxx/xxx.git
+git fetch upstream
+git merge upstream/master
+git push
+
+
+
+http://code.goodrain.com/goodrain/resource-ui.git
+
+
+
+
+
+https://github.com/zsl1549/goodrain.git
+git init 
+git add README.md 
+git commit -m“first commit” 
+git remote add origin https://github.com/zsl1549/goodrain.git
+git push -u origin master
+
+
+
+git remote add origin http://git.goodrain.com/goodrain/resource-ui.git
+
+
+
+pre-commit钩子惹的祸
+
+当你在终端输入git commit -m "[RIX]xxx",提交代码的时候，
+pre-commit(客户端)钩子，它会在Git键入提交信息前运行做代码风格检查。
+如果代码不符合相应规则，则报错。
+
+虽然会提示add --no-verify,但是我输入git commit -m 'xxx' --no-verify绕过验证，强制提交。 好像还是没有上传成功.如果你也一样
+v
+
+
+ var files = $('#fileId').prop('files'); //获取到文件列表
+      console.log("files",files)
+      for (var i = 0; i < files[0].length; i++) {
+        var reader = new FileReader(); //新建一个FileReader
+        reader.readAsText(files[i], "UTF-8"); //读取文件
+        reader.onload = function (evt) { //读取完文件之后会回来这里
+          var fileString = evt.target.result; // 读取文件内容
+          console.log(fileString)
+        }
+      }
+获取Key
+ cat ~/.ssh/
+cat ~/.ssh/id_rsa.pub
+
+打包
+./update.sh
+cp -rp Downloads/acp_test_key.pem .ssh/
+ ssh -i .ssh/acp_test_key.pem root@39.96.22.24
+
+ssh root@  ip
+拉取镜像
+docker pull rainbond/rbd-app-ui:5.0
+docker tag rainbond/rbd-app-ui:5.0 goodrain.me/rbd-app-ui:5.0  看编码一样 改名字
+重启
+systemctl restart rbd-app-ui 
+
+
+
+打包镜像
+docker pull rainbond/rbd-app-ui:3.7.2-telecom-5
+
+
+查看命令 cat upgrade.sh
+
+git remote -v 
+git remote add upstream https://github.com/goodrain/rainbond-ui.git
+git fetch upstream
+git merge upstream/v5.1
+git push
+
+git merge upstream/master
+
+git merge upstream/v3.7
+git remote add upstream https://github.com/goodrain/rainbond-docs.git
+拓扑图的排版
+拓扑图的线的调整
+拓扑图的
+git merge upstream/v3.7
+
+
+
+安装homebrew软件（包管理器for MAC）提供brew命令
+提供gem 默认由ruby提供 也是包管理器
+brew install ruby
+gem安装bundler
+gem install bundler
+安装jekyll
+gem install jekyll
+安装其他需要的包
+bundle install
+构建环境
+bundle exec jekyll
+将当前目录下的静态页面都转化为html push出去，url:http://127.0.0.1:4000/docs/ 访问此网页，即可检查写的页面情况。-I为增量参数
+bundle exec jekyll serve -I
+bundle exec jekyll serve -I --host 172.16.0.146 添加参数，将127.0.0.1 改为 网络IP
+有时候文档无法正常更新，需要将目录下的 site 目录删除
+
+更新镜像
+ssh root@59.110.227.222
+docker pull rainbond/rbd-app-ui:5.0 拉取那个版本
+docker tag rainbond/rbd-app-ui:5.0 goodrain.me/rbd-app-ui:5.0  改名字
+systemctl restart rbd-app-ui  重启
+
+
+npm run start-test
+去http://console.goodrain.com 公有云（官网测试）
+
+启动文档 官网代码 rainbond-docs-local 
+bundle install
+sudo rm -rf ~/.bundle/
+jekyll server -I
+
+
+https://blog.goodrain.com/
+
+
+ssh root@39.104.87.151 登录服务器
+ssh root@39.96.164.21 -i  ~/.ssh/
+acp_test_key.pem
+wget http://rainbond-pkg.oss-cn-shanghai.aliyuncs.com/releases/common/v5.0/grctl
+chmod +x grctl
+./grctl init --iip 172.24.202.196 --eip 39.104.113.23
+grctl node up 656e6b8792081614803dee61586f80be
+grctl cluster
+
+COPYRIGHT 2019 北京好雨科技有限公司
+
+
+
+
+测试服务器
+ssh root@ ip地址
+wget下载包 包地址
+
+cat /etc/os-release 查看发行版本
+yum install -y wget 安装wegt命令
+
+ls 地址
+tar xvzf tgz包 -C /  解压
+cd /opt/rainbond/install/
+./grctl init -h
+./grctl init --eip 39.104.109.240 --install-type offline
+
+
+
+
+
+final_status: "complete"
+status: "success"  
+type: "deploy"
+canRollback.rollback: true
+
+tenant_actions : rollback_service
+
+
+
+
+Fix the #666
+
+Github	写什么原因导致
+
+docker login image.goodrain.com
+root
+Goodrain123465!
+docker push image.goodrain.com/resource-ui:v1.0
+
+
+
+
+sudo vim /etc/hosts /更改域名 解析 ip
+

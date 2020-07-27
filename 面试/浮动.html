@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* .father {
+      border: 1px solid red;
+    }
+    .father::after {
+      content: '';
+      display: block;
+      height: 0px;
+      clear: both;
+    }
+    .bigger,.small {
+      width: 100px;
+      height: 100px;
+      float: left
+    }
+    .bigger {
+      background: red;
+    }
+    .small {
+      background: deeppink;
+    }
+    .clear {
+      clear: both;
+    } */
+    div {
+      width: 100px;
+      height: 100px;
+    }
+    .left {
+      background: red;
+      float: left;
+      margin-right: 20px;
+    }
+    .right {
+      background: blue;
+      display: flow-root;
+    }
+  </style>
+</head>
+<body>
+  <!-- <div  class="father">
+    <div class="bigger">4349074804</div>
+    <div class="small">vdiobfhl</div>
+  </div> -->
+  <script>
+    let arr = [1, 2, 3]
+    Object.defineProperty(window, 'arr', {
+      configurable: true,
+      enumerable: true,
+      get () {
+        console.log('触发了get的方法')
+        return arr
+      },
+      set (newArr) {
+        console.log('触发了set方法')
+        arr = newArr
+      }
+    })
+    arr = []
+  </script>
+</body>
+</html>

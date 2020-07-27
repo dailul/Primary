@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="myDiv">Right click or Ctrl+click me to get a custom context menu.
+    Click anywhere else to get the default context menu.</div>
+    <ul id="myMenu" style="position:absolute;visibility:hidden;background-color:
+    silver">
+    <li><a href="http://www.nczonline.net">Nicholas􏻯 site</a></li> <li><a href="http://www.wrox.com">Wrox site</a></li>
+    <li><a href="http://www.yahoo.com">Yahoo!</a></li>
+          </ul>
+  <script>
+    window.addEventListener('load', () => {
+      const div = document.querySelector('#myDiv')
+      console.log(div)
+      div.addEventListener('contextmenu', (event) => {
+        console.log(2222)
+        event.preventDefault()
+        var menu = document.getElementById("myMenu");
+        menu.style.left = event.clientX + "px";
+        menu.style.top = event.clientY + "px";
+        menu.style.visibility = "visible";
+      })
+      document.addEventListener('click', () => {
+        document.getElementById("myMenu").style.visibility = "hidden";
+      })
+    })
+  </script>
+</body>
+</html>

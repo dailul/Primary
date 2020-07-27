@@ -1,0 +1,133 @@
+1、webpack的配置文件
+     默认的webpack配置文件的名字是：webpack.config.js
+          "scripts": {
+    	"bundle": "webpack",  // 设置webpack打包命令
+   	 "watch": "webpack --watch",    // 监控改了文件自动打包，但是不会开启一个服务器，所以无法做ajax相关的请求
+    	"start": "webpack-dev-server",   // 会开启一个服务器，服务器启动的目录对应的就是我们设置的文件打包目录，一旦监听到文件改动后自动打包，自动重新刷新浏览器
+   	 "server": "node server.js"  // 实现类似webpack-dev-server的效果，新建server.js。通过express创建一个http应用，在通过weboack配置生成webpack编译器，然后在app上通过webpack中间件用来监听webpack的打包发生的变化，并重新打包
+            },
+     webpack是模块打包工具，js,css,图片都是模块
+
+      webpack 配置文件作用：修改默认配置，进行定制化入口，输出，插件配置
+《======================================================================================================================================》
+const path = require('path');   // node的核心模块
+const HtmlWebpackPlugin = require('html-webpack-plugin')          打包结束后，自动生成一个HTML文件，并把打包生成的js自动引入到这个html文件中
+const CleanWebpackPlugin = require('clean-webpack-plugin')       是否在打包过程中删除之前打包的文件目录
+const webpack = require('webpack')
+module.exports = {
+  mode: 'development',   // mode分两种模式，默认的是production，代码会被压缩。如果设置development，代码不会就不会被压缩，这就是mode的作用
+  devtool:'source-map',    // sourceMap 他是一个映射关系
+  entry:{
+    main:'./src/index.js'   // 入口文件
+  },
+  devServer:{
+    contentBase:'./dist',   // 服务器根目录
+    open:true,    // 是否打包完成后主动打开
+    port:8080,     // 端口号
+    hot:true,   //开启热更新     // hot 和 hotOnly 的区别是在某些模块不支持热更新的情况下，前者会自动刷新页面，后者不会刷新页面，而是在控制台输出热更新失败
+    hotOnly:'true'  // 热更新失败也不要刷新浏览器
+    proxy:{
+	'/react/api':{
+		target:'http://www.dell-lee.com',   // 服务器域名
+		pathRewrite:{
+		    'header.json':'demo.json'    // 路径重写，便于测试服务器接口测试
+	                 },
+		secure:false,    // 访问https接口，配置此项
+		changeOrigin:true,    // 对origin有限制网站进行访问，建议加上
+		headers: {   // 自定义请求头
+			host: 'www.dell-lee.com',
+			cookie:'sdfaf'
+			}
+		}
+	}
+  },
+  module:{
+    rules: [{
+      test:/\.js$/,
+      exclude:/node_modules/, // 忽略对第三方代码的转换
+      loader:'babel-loader',   // 负责打通跟webpack的关联，并没有转换
+      options:{   // 业务代码    在业务中引用babel-polyfill
+ 	presets:[['@babel/preset-env',{
+  	     targets:{
+     		chrome:"67"    // 设置浏览器版本，如版本支持es6规则，忽略转换
+   		},
+   	     useBuiltIns:'usage'   // 只打包已经用到的api语法，可以减少打包后文件的大小
+}]]
+    },
+{
+      test: /\.(png|png|gif)$/,
+      use: {
+        loader: 'url-loader',   // loader就是打包方案，对非js结尾模块，需要特定loader进行处理
+        options:{
+          name:'[name]_[hash].[ext]',
+          outputPath:'images/',    //指定打包后存放路径
+          limit:204800
+        }
+      }
+    },{
+      test: /\.scss$/,
+      use: [
+              'style-loader',
+              {
+                loader:'css-loader',
+                options: {
+                  importLoaders: 2,   // 样式模块引入其他模块也调用其他loader
+                  modules: true    // 模块化样式
+                }
+              },
+              'sass-loader',
+              'postcss-loader'
+            ]
+    }]
+  },
+  plugins:[
+    new HtmlWebpackPlugin({  //htmlWebpackPlugin 会在打包结束后，自动生成一个HTML文件，并把打包生成的js自动引入到这个html文件中
+    template:'src/index.html'   // 引入的模板===》打包后的模板
+  }),
+  new CleanWebpackPlugin({
+    cleanStaleWebpackAssets: true     // 是否在打包过程中删除之前打包的文件目录
+  }),
+  new webpack.HotModuleReplacementPlugin()  // 热更新需要
+],
+  output:{
+    filename:'bundle.js',    // 打包完成后的文件名
+    path: path.resolve(__dirname,'dist')   // 打包完成后文件的存放路径，是绝对路径
+  }
+}
+《=============================================================================================================================================》
+2、npx webpack --config 自定义默认文件名     
+     webpack-cli作用：在命令行中提供webpack命令
+     三种webpack打包方式：全局 webpack index.js  本地：npx webpack index.js    第三种：npm run 设置的变量     package.json的scripts设置
+
+3、url-loader与file-loader区别：file-loader是把图片打包到制定目录下，而url-loader可以吧图片打包成base64格式，设置options中的limit属性可以指定小于1limit大小的图片打包成base64，
+     大于的仍然打包成图片，outputPath:指定打包后存放路径
+
+4、loader的执行顺序是从下到上，从右到左。   css-loader:把一个或多个文件合并成一段css代码   style-loader：把css代码挂载到<head></head>中间
+     为css3添加厂商前缀，安装postcss-loader:npm i postcss-loader -D
+     新建postcss.config.js用作postcss-loader的配置文件。这里我们想让webpack帮助我们添加厂商前缀就要使用postcss-loader中名为autoprefiexer的插件  npm i autoprefixer -D
+
+5、htmlWebpackPlugin 会在打包结束后，自动生成一个HTML文件，并把打包生成的js自动引入到这个html文件中  cnpm install html-webpack-plugin -D
+     plugin可以在webpack运行到某个时刻的时候，帮你做一些事情
+
+6、开发环境下建议devtool设置为：cheap-module-eval-source-map，提示错误比较全，打包速度也相对较快    （用来打包后，出现的的代码错误）
+     生产环境下建议devtool设置为：cheap-module-source-map
+
+7、Tree Shaking ：用来去掉没有引用的内容，支持ES Module的引入方式，不支持require这种引入方式
+     配置方式：mode为development时是默认不带tree的，可以通过添加optimization:{usedExports:true }的配置项来加上，同时需要在webpack.config.js里添加"sideEffests":false的配置项
+     sideEffests的值还可以为数组，标识不需要被tree shaking掉的内容
+
+8、分开线上环境和生产环境的配置文件，对两份配置文件中重复代码进行封装。   使用第三方插件npm  cnpm install webpack-merge -D   语法例子：引入webpack-merge和封装的配置文件 module.exports = merge(commonConfig,devConfig)
+
+9、代码分割，和webpack无关，webpack中实现代码分割，两种方式
+     （1）、同步代码：只需要在webpack.common.js中配置即可
+            optimization: {
+  	splitChunks: {
+   	 chunks: 'all'
+  	}
+       （2）、异步代码（import）无需做任何配置，会自动进行代码分割，放置新的文件中
+
+
+
+
+
+ant-notification-notice ant-notification-notice-closable
